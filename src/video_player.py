@@ -12,8 +12,13 @@ class VideoPlayer:
 
     def __init__(self):
         self._video_library = VideoLibrary()
-        self.isPlaying = False
-        self.Video_Playing_id = "None"
+        self.is_playing = False
+        self.video_playing_id = "None"
+        self.is_paused = False
+    
+    def Video_Name(self, video_id):
+        video = self._video_library.get_video(video_id)
+        return video.title
 
     def number_of_videos(self):
         num_videos = len(self._video_library.get_all_videos())
@@ -32,38 +37,32 @@ class VideoPlayer:
 
 
     def play_video(self, video_id):
+    
+        
         """Plays the respective video.
 
         Args:
             video_id: The video_id to be played.
         """
-        
-        current_video = video_id
-        
-        if video_id == "funny_dogs_video_id":
-            current_video = "funny_dogs_video_id"
-            print("Playing video: Funny Dogs")
-            self.isPlaying = True
-        elif video_id == "amazing_cats_video_id":
-            current_video = "amazing_cats_video_id"
-            print("Playing video: Amazing Cats")
-            self.isPlaying = True
-        elif video_id == "another_cat_video_id":
-            current_video = "another_cat_video_id"
-            print("Playing video: Another Cat Video")
-            self.isPlaying = True
-        elif video_id == "life_at_google_video_id":
-            current_video = "life_at_google_video_id"
-            print("Playing video: Life at Google")
-            self.isPlaying = True
-        elif video_id == "nothing_video_id":
-            current_video = "nothing_video_id"
-            print("Playing video: Video about nothing")
-            self.isPlaying = True
-        else:
-            print ("Cannot play video: Video does not exist")
-        #
-        # print("play_video needs implementation")
+        video = self._video_library.get_video(video_id)
+
+        try:
+            temp = video.title
+            if self.is_playing == False:
+                print(f"Playing Video: {video.title}")
+                self.is_playing = True
+                self.is_paused = False
+                self.video_playing_id = video_id
+
+            else:
+                print(f"Stopping video: {self.Video_Name(self.video_playing_id)}")
+                print(f"Playing Video: {video.title}")
+                self.video_playing_id = video_id
+                self.isPaused = False
+        except:
+            print("Cannot play video: Video does not exist")
+
+      
 
     def stop_video(self):
         """Stops the current video."""
