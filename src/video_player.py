@@ -59,9 +59,12 @@ class VideoPlayer:
                 print(f"Stopping video: {self.Video_Name(self.video_playing_id)}")
                 print(f"Playing Video: {video.title}")
                 self.video_playing_id = video_id
-                self.isPaused = False
+               
         except:
             print("Cannot play video: Video does not exist")
+
+            
+            
 
       
 
@@ -80,13 +83,20 @@ class VideoPlayer:
 
         videos = self._video_library.get_all_videos()
 
-        vid = videos[ random.randint(0, len(videos) -1) ]
-        self.play_video(vid._video_id)
+        random_video = videos[ random.randint(0, len(videos) -1) ]
+        self.play_video(random_video._video_id)
 
     def pause_video(self):
         """Pauses the current video."""
 
-        print("pause_video needs implementation")
+        if self.is_paused == False and self.video_playing_id != "none":
+            print(f"Pausing video:{self.Video_Name(self.video_playing_id)}")
+        elif self.is_paused == True and self.video_playing_id != "none":
+            print(f"Video already paused: {self.Video_Name(self.video_playing_id)}")
+        else:
+            print("Cannot pause video: No video is currently playing")
+
+        
 
     def continue_video(self):
         """Resumes playing the current video."""
