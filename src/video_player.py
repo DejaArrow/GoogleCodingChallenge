@@ -33,7 +33,7 @@ class VideoPlayer:
                     
         for item in available_videos:
             
-            print (f"{item.title}, {item.video_id}, {item.tags}")
+            print (f"{item.title}, ({item.video_id}), {item.tags}")
 
 
     def play_video(self, video_id):
@@ -67,7 +67,12 @@ class VideoPlayer:
     def stop_video(self):
         """Stops the current video."""
 
-        print("stop_video needs implementation")
+        
+        if self.is_playing == True:
+            print(f"Stopping video: {self.Video_Name(self.video_playing_id)}")
+            self.is_playing = False
+        else:
+            print(f"Cannot stop video: No video is currently playing.")
 
     def play_random_video(self):
         """Plays a random video from the video library."""
