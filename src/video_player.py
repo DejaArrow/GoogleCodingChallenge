@@ -4,6 +4,7 @@ from os import truncate
 from src import video, video_playlist
 from .video_library import VideoLibrary
 from src import video_library
+import random
 
 
 
@@ -77,7 +78,10 @@ class VideoPlayer:
     def play_random_video(self):
         """Plays a random video from the video library."""
 
-        print("play_random_video needs implementation")
+        videos = self._video_library.get_all_videos()
+
+        vid = videos[ random.randint(0, len(videos) -1) ]
+        self.play_video(vid._video_id)
 
     def pause_video(self):
         """Pauses the current video."""
