@@ -1,6 +1,7 @@
 """A video player class."""
 
 from os import truncate
+from src.video_playlist_library import VideoPlaylistLibraryError
 from src import video, video_playlist
 from .video_library import VideoLibrary
 from src import video_library
@@ -19,6 +20,7 @@ class VideoPlayer:
         self.is_playing = False
         self.video_playing_id = "None"
         self.is_paused = False
+        self._playlists = video_playlist_library.VideoPlaylistLibrary
     
     def Video_Name(self, video_id):
         video = self._video_library.get_video(video_id)
@@ -122,17 +124,21 @@ class VideoPlayer:
             print(f"Currently playing: {self.Video_Name(self.video_playing_id)} - PAUSED")
         else:
             print(f"No video is currently playing.")
-            
-
-       
+                   
 
     def create_playlist(self, playlist_name):
         """Creates a playlist with a given name.
-
+        
         Args:
             playlist_name: The playlist name.
         """
-        print("create_playlist needs implementation")
+        try:
+            self._playlists.create(playlist_name)
+            print(f"Successfully created new playlist: {playlist_name}")
+        except VideoPlaylistLibraryError as e:
+            print(f"Cannot create playlist: {e}")
+
+       
 
     def add_to_playlist(self, playlist_name, video_id):
         """Adds a video to a playlist with a given name.
