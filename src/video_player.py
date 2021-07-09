@@ -122,6 +122,7 @@ class VideoPlayer:
             print(f"Currently playing: {self.Video_Name(self.video_playing_id)} - PAUSED")
         else:
             print("No video is currently playing")
+            
 
        
 
