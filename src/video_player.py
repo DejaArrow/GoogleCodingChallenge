@@ -6,6 +6,9 @@ from .video_library import VideoLibrary
 from src import video_library
 import random
 
+class VideoPlayerError(Exception):
+    pass
+
 
 
 class VideoPlayer:
@@ -113,7 +116,14 @@ class VideoPlayer:
     def show_playing(self):
         """Displays video currently playing."""
 
-        print("show_playing needs implementation")
+        if self.video_playing_id != "None":
+            print(f"Currently playing: {self.Video_Name(self.video_playing_id)}")
+        elif self.is_paused == True:
+            print(f"Currently playing: {self.Video_Name(self.video_playing_id)} - PAUSED")
+        else:
+            print("No video is currently playig")
+
+       
 
     def create_playlist(self, playlist_name):
         """Creates a playlist with a given name.
