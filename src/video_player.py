@@ -1,11 +1,13 @@
 """A video player class."""
-
-from os import truncate
-from src.video_playlist_library import VideoPlaylistLibraryError
-from src import video, video_playlist
-from .video_library import VideoLibrary
-from src import video_library
 import random
+from os import truncate
+from video_playlist_library import VideoPlaylistLibraryError
+from src import video, video_playlist
+from .video_library import VideoLibrary, VideoLibraryError
+from .video import FlagError
+from video_playlist import VideoPlaylistError
+
+
 
 class VideoPlayerError(Exception):
     pass
@@ -66,7 +68,7 @@ class VideoPlayer:
                 self.video_playing_id = video_id
                 self.is_playing = False
                
-        except:
+        except (VideoLibraryError, FlagError) as e:
             print("Cannot play video: Video does not exist")
 
             
@@ -147,12 +149,27 @@ class VideoPlayer:
             playlist_name: The playlist name.
             video_id: The video_id to be added.
         """
-        print("add_to_playlist needs implementation")
+        try:
+            playlist = self._playlists[playlist_name]
+            video = self._videos[video_id]
+            video.check_allowed()
+            playlist.add_video(video)
+            print(f"Added video to {playlist_name}: {video.title}")
+        except (VideoPlaylistLibraryError, VideoPlayerError, VideoLibraryError, FlagError) as e:
+            print(f"Cannot add video to {playlist_name}: {e}")
 
     def show_all_playlists(self):
         """Display all playlists."""
 
-        print("show_all_playlists needs implementation")
+        playlists = list(self._playlists.get_all())
+
+        if not playlists:
+            print("No playlists exist yet")
+            return
+        
+        print("Showing all playlists: ")
+        for playlist in playlists:
+            print(f" {playlist}")
 
     def show_playlist(self, playlist_name):
         """Display all videos in a playlist with a given name.

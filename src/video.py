@@ -2,7 +2,8 @@
 
 from typing import Sequence
 
-
+class FlagError(Exception):
+    pass
 class Video:
     """A class used to represent a Video."""
 
